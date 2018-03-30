@@ -66,9 +66,26 @@ void on_new_connection(uv_stream_t *server, int status) {
     }
 }
 
+void signal_handler(uv_signal_t *req, int signum)
+{
+    printf("Signal received %d!\n",signum);
+    
+    if (SIGINT == signum) {
+        printf("SIGINT received!\n");
+        uv_loop_close(loop_server);
+        exit(0);
+    }
+}
+
 int main() {
     loop_server = uv_default_loop();
 
+    //setup signal handler
+    uv_signal_t sig;
+    uv_signal_init(loop_server, &sig);
+    uv_signal_start(&sig, signal_handler, SIGINT);
+
+    //setup tcp server
     uv_tcp_t server;
     uv_tcp_init(loop_server, &server);
 
@@ -80,6 +97,8 @@ int main() {
         fprintf(stderr, "Listen error %s\n", uv_strerror(r));
         return 1;
     }
+
+    //run loop
     int run_ret = uv_run(loop_server, UV_RUN_DEFAULT);
 
     uv_loop_close(loop_server);
