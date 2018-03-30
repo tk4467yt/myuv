@@ -68,8 +68,6 @@ void on_new_connection(uv_stream_t *server, int status) {
 
 void signal_handler(uv_signal_t *req, int signum)
 {
-    printf("Signal received %d!\n",signum);
-    
     if (SIGINT == signum) {
         printf("SIGINT received!\n");
         uv_loop_close(loop_server);
