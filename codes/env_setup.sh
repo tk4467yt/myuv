@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #run rabbitmq
-docker run -itd --rm --network dnet1 --name a1  alpine
+docker run -d --hostname myrabbit --name myrabbit rabbitmq
 
 #run rabbitmq consumer
 docker run -itd --rm --network dnet1 --name a1  alpine
