@@ -89,7 +89,11 @@ int main() {
 
     uv_ip4_addr("0.0.0.0", DEFAULT_PORT, &addr_server);
 
-    uv_tcp_bind(&server, (const struct sockaddr*)&addr_server, 0);
+    int bindRet=uv_tcp_bind(&server, (const struct sockaddr*)&addr_server, 0);
+    if (bindRet < 0) {
+        printf("bind error\n");
+        return 1;
+    }
     int r = uv_listen((uv_stream_t*) &server, DEFAULT_BACKLOG, on_new_connection);
     if (r) {
         fprintf(stderr, "Listen error %s\n", uv_strerror(r));
