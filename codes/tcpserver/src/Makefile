@@ -1,9 +1,7 @@
-#GCC := gcc
-
 .PHONY: all install clean
 
 all:
-	gcc tcpserver.c -o uvtcpserver /usr/lib/libuv.a -lpthread
+	g++ tcpserver.c -o uvtcpserver /usr/lib/libuv.a /usr/lib/libamqpcpp.a -lpthread -ldl
 
 install:
 	cp uvtcpserver /usr/local/bin/
