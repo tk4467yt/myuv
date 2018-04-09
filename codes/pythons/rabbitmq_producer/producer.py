@@ -1,16 +1,19 @@
-import pika
-
 #run with docker
 #docker run --rm --network dnet1 xuqin:rabbitmq_producer_python
 
-connection = pika.BlockingConnection(pika.ConnectionParameters('myrabbitd'))
+import pika
+import sys
+
+connection = pika.BlockingConnection(pika.ConnectionParameters(host='myrabbitd'))
 channel = connection.channel()
 
-channel.queue_declare(queue='hello')
+channel.exchange_declare(exchange='direct_logs',
+                         exchange_type='direct')
 
-channel.basic_publish(exchange='',
-                      routing_key='hello',
-                      body='Hello World!')
-print(" [x] Sent 'Hello World!'")
-
+severity = 'info'
+message = 'Hello World info!'
+channel.basic_publish(exchange='direct_logs',
+                      routing_key=severity,
+                      body=message)
+print(" [x] Sent %r:%r" % (severity, message))
 connection.close()
