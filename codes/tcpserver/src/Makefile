@@ -1,7 +1,7 @@
 .PHONY: all install clean
 
 all:
-	g++ tcpserver.cpp -o uvtcpserver /usr/lib/libuv.a /usr/lib/libamqpcpp.a -lpthread -lssl -ldl
+	g++ tcpserver.cpp -o uvtcpserver -luv -ljemalloc -lpthread -lssl -ldl
 
 install:
 	cp uvtcpserver /usr/local/bin/
