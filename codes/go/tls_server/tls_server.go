@@ -21,7 +21,7 @@ func HandleClientConnect(conn net.Conn) {
         }
         fmt.Printf("Receive Data: %s\n", string(buffer[:len]))
         //发送给客户端
-        _, err = conn.Write([]byte("服务器收到数据:" + string(buffer[:len])))
+        _, err = conn.Write([]byte(string(buffer[:len])))
         if err != nil {
             break
         }
