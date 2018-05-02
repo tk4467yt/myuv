@@ -1,4 +1,4 @@
-FROM golang:alpine
+FROM golang:1.10-alpine3.7
 COPY /tls_server/ /gosrcs/
 RUN cd /gosrcs && go build tls_server.go
 
